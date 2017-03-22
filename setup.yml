@@ -15,10 +15,19 @@
   - name: github clone csicocd
     git:
      repo: https://github.com/kuku321/ciscocd.git
-     dest: ~/ciscocd
+     est: ~/ciscocd
      clone: yes
   - name: github clone petclinic
     git:
      repo: https://github.com/kuku321/spring-petclinic.git
      dest: ~/petclinic
+     update: no 
      clone: yes
+  - name: download maven
+    get_url:
+     url: http://www-us.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
+     dest: /tmp/maven-3.3.9/apache-maven-3.3.9-bin.tar.gz
+  - name: untar maven
+    unarchive:
+     src: /tmp/maven-3.3.9/apache-maven-3.3.9-bin.tar.gz
+     dest: ~/maven-3.3.9
