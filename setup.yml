@@ -1,4 +1,4 @@
-- hosts: localhost
+- hosts: localhost  
   tasks:
   - name: create user johnny
     user: name=johnny state=absent
@@ -15,7 +15,7 @@
   - name: github clone csicocd
     git:
      repo: https://github.com/kuku321/ciscocd.git
-     est: ~/ciscocd
+     dest: ~/ciscocd
      clone: yes
   - name: github clone petclinic
     git:
@@ -23,11 +23,28 @@
      dest: ~/petclinic
      update: no 
      clone: yes
-  - name: download maven
-    get_url:
-     url: http://www-us.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
-     dest: /tmp/maven-3.3.9/apache-maven-3.3.9-bin.tar.gz
-  - name: untar maven
-    unarchive:
-     src: /tmp/maven-3.3.9/apache-maven-3.3.9-bin.tar.gz
-     dest: ~/maven-3.3.9
+#  - name: download maven
+#    get_url:
+#     url: http://www-us.apache.org/dist/maven/maven-3/3.3.9/binaries/apache-maven-3.3.9-bin.tar.gz
+#     dest: /tmp/maven-3.3.9/apache-maven-3.3.9-bin.tar.gz
+#  - name: untar maven
+#    unarchive:
+#     src: /tmp/maven-3.3.9/apache-maven-3.3.9-bin.tar.gz
+#     dest: ~/maven-3.3.9i
+  - name: install docker
+    become: yes
+    become_method: sudo
+    yum: name=docker
+  - name: sudo usermod -aG docker ec2-user
+    become: yes
+    become_method: sudo
+    user: 
+     name=ec2-user
+     append=yes
+     groups=docker
+  - name: sudo service docker start
+    become: yes
+    become_method: sudo
+    service:
+     name=docker
+     state=started 
